@@ -198,3 +198,13 @@
         "lint:style": "stylelint src/**/*.{css,scss,vue} --cache --fix"
     ```
     5. 终端中运行pnpm run format美化代码
+## 配置husk
+    1. 安装husk：pnpm install -D husky
+    2. 生成husk文件夹：npx husky-init
+    3. 配置husk文件夹中的pre-commit文件
+    ```
+        #!/usr/bin/env sh
+        . "$(dirname -- "$0")/_/husky.sh"
+        pnpm run format
+    ```
+    4. 当我们对代码进行commit操作的时候，就会自动执行命令，对代码进行格式化，然后再提交
