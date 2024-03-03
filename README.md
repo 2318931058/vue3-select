@@ -198,10 +198,12 @@
         "lint:style": "stylelint src/**/*.{css,scss,vue} --cache --fix"
     ```
     5. 终端中运行pnpm run format美化代码
-## 配置husk
-    1. 安装husk：pnpm install -D husky
-    2. 生成husk文件夹：npx husky-init
-    3. 配置husk文件夹中的pre-commit文件
+
+## 配置husky
+
+    1. 安装husky：pnpm install -D husky
+    2. 生成husky文件夹：npx husky-init
+    3. 配置husky文件夹中的pre-commit文件
     ```
         #!/usr/bin/env sh
         . "$(dirname -- "$0")/_/husky.sh"

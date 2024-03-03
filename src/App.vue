@@ -1,5 +1,5 @@
 <script setup>
-let a = 100;
+let a = "peiqi";
 console.log(a);
 </script>
 
