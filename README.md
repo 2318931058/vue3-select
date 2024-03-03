@@ -251,7 +251,7 @@
     ```
         "commitlint": "commitlint --config commitlint.config.cjs -e -V"
     ```
-    4. 接下来commit信息的时候，前面就需要带着下面的关键词, 如修改bug：git commit -m 'fix: 修改bug'
+    4. 接下来commit信息的时候，前面就需要带着下面的subject, 如修改bug：git commit -m 'fix: 修改bug'
     ```
         'feat',                 //新特性、新功能
         'fix',                  //修改bug
@@ -264,7 +264,7 @@
         'revert',               //回滚到上一个版本
         'build',                //编译相关的修改，例如发布版本、对项目构建或者依赖的改动
     ```
-    5. 配置husky：npx husky add .husky/commit-msg 
+    5. 配置husky：npx husky add .husky/commit-msg
     6. 在生成的commit-msg文件中添加下面的命令
     ```
         #!/usr/bin/env sh
@@ -272,3 +272,20 @@
         pnpm commitlint
     ```
     7. 当我们 commit 提交信息时，就不能再随意写了，必须是 git commit -m 'fix: xxx' 符合类型的才可以，**需要注意的是类型的后面需要用英文的 :，并且冒号后面是需要空一格的，这个是不能省略的**
+## 统一包管理工具
+    1. 根目录创建scritps/preinstall.js文件
+    ```
+        if (!/pnpm/.test(process.env.npm_execpath || '')) {
+            console.warn(
+                `\u001b[33mThis repository must using pnpm as the package manager ` +
+                ` for scripts to work properly.\u001b[39m\n`,
+            )
+            process.exit(1)
+        }
+    ```
+    2. package.json的scripts中添加
+    ```
+        "preinstall": "node ./scripts/preinstall.js"
+    ```
+    3. **当我们使用npm或者yarn来安装包的时候，就会报错了。原理就是在install的时候会触发preinstall（npm提供的生命周期钩子）这个文件里面的代码。**
+

@@ -16,6 +16,7 @@
     "commitlint": "commitlint --config commitlint.config.cjs -e -V"
   },
   "dependencies": {
+    "element-plus": "^2.6.0",
     "vue": "^3.4.15"
   },
   "devDependencies": {
