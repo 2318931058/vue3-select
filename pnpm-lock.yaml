@@ -40,6 +40,9 @@ devDependencies:
   eslint-plugin-vue:
     specifier: ^9.22.0
     version: 9.22.0(eslint@8.57.0)
+  prettier:
+    specifier: ^3.2.5
+    version: 3.2.5
   vite:
     specifier: ^5.0.11
     version: 5.1.4

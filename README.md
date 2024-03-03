@@ -81,9 +81,38 @@
             }
     ```
     5. 根目录下新建.eslintignore忽略文件
-        dist
-        node_modules    
+        ```
+            dist
+            node_modules  
+        ```  
     6. package.json新增两个运行脚本
-        "lint": "eslint src",
-        "fix": "eslint src --fix"
+        ```
+            "lint": "eslint src",
+            "fix": "eslint src --fix"
+        ```
     7. 终端运行pnpm run lint检查错误，运行pnpm run fix自动修正错误
+## 配置prettier
+    1. 安装prettier：pnpm install -D eslint-plugin-prettier prettier eslint-config-prettier
+    2. 根目录下新建.prettierrc.json添加规则
+    ```
+        {
+            "singleQuote": true,
+            "semi": false,
+            "bracketSpacing": true,
+            "htmlWhitespaceSensitivity": "ignore",
+            "endOfLine": "auto",
+            "trailingComma": "all",
+            "tabWidth": 2
+        }
+    ```
+    3. 根目录下新建.prettierignore忽略文件
+    ```
+        /dist/*
+        /html/*
+        .local
+        /node_modules/**
+        **/*.svg
+        **/*.sh
+        /public/*
+    ```
+    4. 终端运行pnpm run lint检查错误，运行pnpm run fix自动修正错误
