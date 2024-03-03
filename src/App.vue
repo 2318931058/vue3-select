@@ -1,6 +1,6 @@
 <script setup>
-let a = "peiqi";
-console.log(a);
+let a = 'peiqi'
+console.log(a)
 </script>
 
 <template>
