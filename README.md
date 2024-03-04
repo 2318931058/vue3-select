@@ -290,8 +290,11 @@
         "preinstall": "node ./scripts/preinstall.js"
     ```
     3. **当我们使用npm或者yarn来安装包的时候，就会报错了。原理就是在install的时候会触发preinstall（npm提供的生命周期钩子）这个文件里面的代码。**
+
 # 项目集成
+
 ## element-plus
+
     1. 安装element-plus：pnpm install element-plus
     2. 安装图标：pnpm install @element-plus/icons-vue
     3. 自动导入须安装：pnpm install -D unplugin-vue-components unplugin-auto-import
@@ -324,4 +327,30 @@
         app.use(ElementPlus, {
             locale: zhCn,
         })
+    ```
+
+## src别名
+
+    1. 在vite.config.ts中配置
+    ```
+        import path from 'path'
+        export default defineConfig({
+            plugins: [vue()],
+            resolve: {
+                alias: {
+                    "@": path.resolve("./src") // 相对路径别名配置，使用 @ 代替 src
+                }
+            }
+        })
+    ```
+    2. 在tsconfig.json中配置
+    ```
+        {
+            "compilerOptions": {
+                "baseUrl": "./", // 解析非相对模块的基地址，默认是当前目录
+                "paths": { //路径映射，相对于baseUrl
+                "@/*": ["src/*"] 
+                }
+            }
+        }
     ```
