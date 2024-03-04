@@ -375,6 +375,11 @@
    })
    ```
 
+6. 在tsconfig.json中配置全局组件类型声明（使用ts时配置）
+   ```
+   "types": ["element-plus/global"],
+   ```
+
 ## src别名
 
 1. 在vite.config.js中配置
@@ -537,94 +542,160 @@
     })
     ```
     3. 在"src/styles/variable.scss"中书写全局变量，并在任意组件中使用
-## Mock数据
-   具体可参考官网：https://github.com/vbenjs/vite-plugin-mock/blob/HEAD/README.zh_CN.md
-   1. 安装依赖包：pnpm install -D vite-plugin-mock mockjs
-   2. 在vite.config.js文件中添加以下配置
-   ```
-   import { UserConfigExport, ConfigEnv } from 'vite'
-   import { viteMockServe } from 'vite-plugin-mock'
-   import vue from '@vitejs/plugin-vue'
-   export default ({ command })=> {
-      return {
-         plugins: [
-            vue(),
-            viteMockServe({
-            localEnabled: command === 'serve',
-            }),
-         ],
-      }
-   }
-   ```
-   3. 在根目录下新建mock文件夹用于存储mock的数据
-   ```
-   // mock用户信息数据
-   function createUserList() {
-      return [
-         {
-            userId: 1,
-            avatar:
-            'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-            username: 'admin',
-            password: '111111',
-            desc: '平台管理员',
-            roles: ['平台管理员'],
-            buttons: ['cuser.detail'],
-            routes: ['home'],
-            token: 'Admin Token',
-         },
-         {
-            userId: 2,
-            avatar:
-            'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-            username: 'system',
-            password: '111111',
-            desc: '系统管理员',
-            roles: ['系统管理员'],
-            buttons: ['cuser.detail', 'cuser.user'],
-            routes: ['home'],
-            token: 'System Token',
-         },
-      ]
-   }
 
-   export default [
-      // 用户登录接口
+## Mock数据
+
+具体可参考官网：https://github.com/vbenjs/vite-plugin-mock/blob/HEAD/README.zh_CN.md
+
+1.  安装依赖包：pnpm install -D vite-plugin-mock mockjs
+2.  在vite.config.js文件中添加以下配置
+
+```
+import { UserConfigExport, ConfigEnv } from 'vite'
+import { viteMockServe } from 'vite-plugin-mock'
+import vue from '@vitejs/plugin-vue'
+export default ({ command })=> {
+   return {
+      plugins: [
+         vue(),
+         viteMockServe({
+         localEnabled: command === 'serve',
+         }),
+      ],
+   }
+}
+```
+
+3.  在根目录下新建mock文件夹用于存储mock的数据
+
+```
+// mock用户信息数据
+function createUserList() {
+   return [
       {
-         url: '/api/user/login', //请求地址
-         method: 'post', //请求方式
-         response: ({ body }) => {
-            //获取请求体携带过来的用户名与密码
-            const { username, password } = body
-            //调用获取用户信息函数,用于判断是否有此用户
-            const checkUser = createUserList().find(
-            (item) => item.username === username && item.password === password,
-            )
-            //没有用户返回失败信息
-            if (!checkUser) {
-            return { code: 201, data: { message: '账号或者密码不正确' } }
-            }
-            //如果有返回成功信息
-            const { token } = checkUser
-            return { code: 200, data: { token } }
-         },
+         userId: 1,
+         avatar:
+         'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+         username: 'admin',
+         password: '111111',
+         desc: '平台管理员',
+         roles: ['平台管理员'],
+         buttons: ['cuser.detail'],
+         routes: ['home'],
+         token: 'Admin Token',
       },
-      // 获取用户信息
       {
-         url: '/api/user/info',
-         method: 'get',
-         response: (request) => {
-            //获取请求头携带token
-            const token = request.headers.token
-            //查看用户信息是否包含有次token用户
-            const checkUser = createUserList().find((item) => item.token === token)
-            //没有返回失败的信息
-            if (!checkUser) {
-            return { code: 201, data: { message: '获取用户信息失败' } }
-            }
-            //如果有返回成功信息
-            return { code: 200, data: { checkUser } }
-         },
+         userId: 2,
+         avatar:
+         'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+         username: 'system',
+         password: '111111',
+         desc: '系统管理员',
+         roles: ['系统管理员'],
+         buttons: ['cuser.detail', 'cuser.user'],
+         routes: ['home'],
+         token: 'System Token',
       },
    ]
-   ```
+}
+
+export default [
+   // 用户登录接口
+   {
+      url: '/api/user/login', //请求地址
+      method: 'post', //请求方式
+      response: ({ body }) => {
+         //获取请求体携带过来的用户名与密码
+         const { username, password } = body
+         //调用获取用户信息函数,用于判断是否有此用户
+         const checkUser = createUserList().find(
+         (item) => item.username === username && item.password === password,
+         )
+         //没有用户返回失败信息
+         if (!checkUser) {
+         return { code: 201, data: { message: '账号或者密码不正确' } }
+         }
+         //如果有返回成功信息
+         const { token } = checkUser
+         return { code: 200, data: { token } }
+      },
+   },
+   // 获取用户信息
+   {
+      url: '/api/user/info',
+      method: 'get',
+      response: (request) => {
+         //获取请求头携带token
+         const token = request.headers.token
+         //查看用户信息是否包含有次token用户
+         const checkUser = createUserList().find((item) => item.token === token)
+         //没有返回失败的信息
+         if (!checkUser) {
+         return { code: 201, data: { message: '获取用户信息失败' } }
+         }
+         //如果有返回成功信息
+         return { code: 200, data: { checkUser } }
+      },
+   },
+]
+```
+
+## axios的二次封装
+
+1. 在src目录下新建utils文件夹，在utils文件夹中新建request.js文件用于二次封装axios
+```
+   // 引入工具axios和element-plus
+   import axios from 'axios'
+   import { ElMessage } from 'element-plus'
+
+   // 创建axios实例，可用于设置基础路径和超时时间等
+   const request = axios.create({
+      baseURL: import.meta.env.VITE_APP_BASE_API,
+      timeout: 5000,
+   })
+
+   // 创建请求拦截器：开始进度条、请求头携带公共参数等
+   request.interceptors.request.use((config) => {
+      // config为配置对象，config.header为请求头，多用于给服务器端携带公共参数
+      return config
+   })
+
+   // 创建响应拦截器：进度条结束、简化服务器返回的数据、处理http网络错误等
+   request.interceptors.response.use(
+      (response) => {
+         // 成功回调：简化数据
+         return response.data
+      },
+      (error) => {
+         // 失败回调：处理http网络错误
+         let message = ''
+         // http状态码
+         const status = error.response.status
+         switch (status) {
+            case 401:
+            message = 'TOKEN过期'
+            break
+            case 403:
+            message = '无权访问'
+            break
+            case 404:
+            message = '请求地址错误'
+            break
+            case 500:
+            message = '服务器出现问题'
+            break
+            default:
+            message = '网络出现问题'
+            break
+         }
+         ElMessage({
+            type: 'error',
+            message,
+         })
+         return Promise.reject(error)
+      },
+   )
+
+   // 导出
+   export default request
+```
