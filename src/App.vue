@@ -1,6 +1,7 @@
 <script setup>
 import { Edit } from '@element-plus/icons-vue'
 import temp from '@/components/temp.vue'
+console.log(import.meta.env)
 </script>
 
 <template>

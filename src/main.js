@@ -9,5 +9,4 @@ import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 app.use(ElementPlus, {
   locale: zhCn,
 })
-
 app.mount('#app')
