@@ -30,4 +30,13 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        javascriptEnabled: true,
+        // 引入全局变量
+        additionalData: '@import "@/style/variable.scss";',
+      },
+    },
+  },
 })

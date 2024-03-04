@@ -73,7 +73,7 @@
        'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
        'no-unexpected-multiline': 'error', // 禁止空余的多行
        'no-useless-escape': 'off', // 禁止不必要的转义字符
-   
+
        // typeScript (https://typescript-eslint.io/rules)
        '@typescript-eslint/no-unused-vars': 'error', // 禁止定义未使用的变量
        '@typescript-eslint/prefer-ts-expect-error': 'error', // 禁止使用 @ts-ignore
@@ -81,7 +81,7 @@
        '@typescript-eslint/no-non-null-assertion': 'off',
        '@typescript-eslint/no-namespace': 'off', // 禁止使用自定义 TypeScript 模块和命名空间。
        '@typescript-eslint/semi': 'off',
-   
+
        // eslint-plugin-vue (https://eslint.vuejs.org/rules/)
        'vue/multi-word-component-names': 'off', // 要求组件名称始终为 “-” 链接的单词
        'vue/script-setup-uses-vars': 'error', // 防止<script setup>使用的变量<template>被标记为未使用
@@ -315,11 +315,11 @@
 
    ```javascript
    if (!/pnpm/.test(process.env.npm_execpath || '')) {
-       console.warn(
-           `\u001b[33mThis repository must using pnpm as the package manager ` +
-           ` for scripts to work properly.\u001b[39m\n`,
-       )
-       process.exit(1)
+     console.warn(
+       `\u001b[33mThis repository must using pnpm as the package manager ` +
+         ` for scripts to work properly.\u001b[39m\n`,
+     )
+     process.exit(1)
    }
    ```
 
@@ -348,18 +348,18 @@
    import AutoImport from 'unplugin-auto-import/vite'
    import Components from 'unplugin-vue-components/vite'
    import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-   
+
    export default defineConfig({
+     // ...
+     plugins: [
        // ...
-       plugins: [
-           // ...
-           AutoImport({
-               resolvers: [ElementPlusResolver()],
-           }),
-           Components({
-               resolvers: [ElementPlusResolver()],
-           }),
-       ],
+       AutoImport({
+         resolvers: [ElementPlusResolver()],
+       }),
+       Components({
+         resolvers: [ElementPlusResolver()],
+       }),
+     ],
    })
    ```
 
@@ -382,12 +382,12 @@
    ```javascript
    import path from 'path'
    export default defineConfig({
-       plugins: [vue()],
-       resolve: {
-           alias: {
-               "@": path.resolve("./src") // 相对路径别名配置，使用 @ 代替 src
-           }
-       }
+     plugins: [vue()],
+     resolve: {
+       alias: {
+         '@': path.resolve('./src'), // 相对路径别名配置，使用 @ 代替 src
+       },
+     },
    })
    ```
 
@@ -395,12 +395,13 @@
 
    ```json
    {
-       "compilerOptions": {
-           "baseUrl": "./", // 解析非相对模块的基地址，默认是当前目录
-           "paths": { //路径映射，相对于baseUrl
-               "@/*": ["src/*"]
-           }
+     "compilerOptions": {
+       "baseUrl": "./", // 解析非相对模块的基地址，默认是当前目录
+       "paths": {
+         //路径映射，相对于baseUrl
+         "@/*": ["src/*"]
        }
+     }
    }
    ```
 
@@ -409,8 +410,8 @@
 > 项目开发过程中，至少会经历开发环境、测试环境和生产环境(即正式环境)三个阶段。不同阶段请求的状态(如接口地址等)不尽相同，若手动切换接口地址是相当繁琐且易出错的。于是环境变量配置的需求就应运而生，我们只需做简单的配置，把环境状态切换的工作交给代码
 >
 > 开发环境（development）：开发使用的环境，每位开发人员在自己的dev分支上干活，开发到一定程度，同事会合并代码，进行联调。
-> 	测试环境（testing）：测试同事干活的环境啦，一般会由测试同事自己来部署，然后在此环境进行测试
-> 	生产环境（production）：生产环境是指正式提供对外服务的，一般会关掉错误报告，打开错误日志。(正式提供给客户使用的环境。)
+> 测试环境（testing）：测试同事干活的环境啦，一般会由测试同事自己来部署，然后在此环境进行测试
+> 生产环境（production）：生产环境是指正式提供对外服务的，一般会关掉错误报告，打开错误日志。(正式提供给客户使用的环境。)
 
 1. 根目录下新建.env.development开发环境文件
 
@@ -429,11 +430,11 @@
 
 5. package.json的scripts中添加
 
-   ````json
+   ```json
    "build:test": "vue-tsc && vite build --mode test",
    "build:pro": "vue-tsc && vite build --mode production",
    "preview": "vite preview"
-   ````
+   ```
 
 6. 通过import.meta.env获取环境变量
 
@@ -447,16 +448,16 @@
    import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
    import path from 'path'
    export default () => {
-       return {
-           plugins: [
-               createSvgIconsPlugin({
-                   // Specify the icon folder to be cached
-                   iconDirs: [path.resolve(process.cwd(), 'src/assets/icons')],
-                   // Specify symbolId format
-                   symbolId: 'icon-[dir]-[name]',
-               }),
-           ],
-       }
+     return {
+       plugins: [
+         createSvgIconsPlugin({
+           // Specify the icon folder to be cached
+           iconDirs: [path.resolve(process.cwd(), 'src/assets/icons')],
+           // Specify symbolId format
+           symbolId: 'icon-[dir]-[name]',
+         }),
+       ],
+     }
    }
    ```
 
@@ -470,51 +471,69 @@
 
    ```vue
    <script setup lang="ts">
-       defineProps({
-           //xlink:href属性值的前缀
-           prefix: {
-               type: String,
-               default: '#icon-'
-           },
-           //svg矢量图的名字
-           name: String,
-           //svg图标的颜色
-           color: {
-               type: String,
-               default: ""
-           },
-           //svg宽度
-           width: {
-               type: String,
-               default: '16px'
-           },
-           //svg高度
-           height: {
-               type: String,
-               default: '16px'
-           }
-       })
+   defineProps({
+     //xlink:href属性值的前缀
+     prefix: {
+       type: String,
+       default: '#icon-',
+     },
+     //svg矢量图的名字
+     name: String,
+     //svg图标的颜色
+     color: {
+       type: String,
+       default: '',
+     },
+     //svg宽度
+     width: {
+       type: String,
+       default: '16px',
+     },
+     //svg高度
+     height: {
+       type: String,
+       default: '16px',
+     },
+   })
    </script>
-   
+
    <template>
-       <div>
-           <svg :style="{ width: width, height: height }">
-           <use :xlink:href="prefix + name" :fill="color"></use>
-           </svg>
-       </div>
+     <div>
+       <svg :style="{ width: width, height: height }">
+         <use :xlink:href="prefix + name" :fill="color"></use>
+       </svg>
+     </div>
    </template>
    ```
 
 5. 在其它组件中使用，使用时需传入特定参数
 
    ```vue
-   <script setup lang='ts'>
-    import SvgIcon from '@/components/SvgIcon/index.vue'
+   <script setup lang="ts">
+   import SvgIcon from '@/components/SvgIcon/index.vue'
    </script>
-   
+
    <template>
-    <SvgIcon name="lock" color="red" width="200px" height="200px" />
+     <SvgIcon name="lock" color="red" width="200px" height="200px" />
    </template>
    ```
+
 6. 可根据需要将其注册为全局组件（全局组件较多就使用自定义插件）
-   
+
+## 包管理器---Sass
+
+    1. 安装sass：npm install sass sass-loader --save-dev
+    2. 在vite.config.js文件中配置全局变量文件为"./src/styles/variable.scss"
+    ```
+    export default defineConfig(config => {
+        css: {
+            preprocessorOptions: {
+                scss: {
+                    javascriptEnabled: true,
+                    additionalData: '@import "./src/styles/variable.scss";',
+                },
+            },
+        },
+    })
+    ```
+    3. 在"src/styles/variable.scss"中书写全局变量，并在任意组件中使用
