@@ -1,8 +1,7 @@
 <script setup>
-let a = 'peiqi'
-console.log(a)
+import { Edit } from '@element-plus/icons-vue'
 </script>
 
 <template>
-  <div>硅谷甄选</div>
+  <el-button type="primary" size="default" :icon="Edit">测试</el-button>
 </template>

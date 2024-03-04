@@ -272,7 +272,9 @@
         pnpm commitlint
     ```
     7. 当我们 commit 提交信息时，就不能再随意写了，必须是 git commit -m 'fix: xxx' 符合类型的才可以，**需要注意的是类型的后面需要用英文的 :，并且冒号后面是需要空一格的，这个是不能省略的**
+
 ## 统一包管理工具
+
     1. 根目录创建scritps/preinstall.js文件
     ```
         if (!/pnpm/.test(process.env.npm_execpath || '')) {
@@ -288,4 +290,38 @@
         "preinstall": "node ./scripts/preinstall.js"
     ```
     3. **当我们使用npm或者yarn来安装包的时候，就会报错了。原理就是在install的时候会触发preinstall（npm提供的生命周期钩子）这个文件里面的代码。**
+# 项目集成
+## element-plus
+    1. 安装element-plus：pnpm install element-plus
+    2. 安装图标：pnpm install @element-plus/icons-vue
+    3. 自动导入须安装：pnpm install -D unplugin-vue-components unplugin-auto-import
+    4. 在vite.config.ts文件中配置
+    ```
+        import { defineConfig } from 'vite'
+        import AutoImport from 'unplugin-auto-import/vite'
+        import Components from 'unplugin-vue-components/vite'
+        import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
+        export default defineConfig({
+            // ...
+            plugins: [
+                // ...
+                AutoImport({
+                resolvers: [ElementPlusResolver()],
+                }),
+                Components({
+                resolvers: [ElementPlusResolver()],
+                }),
+            ],
+        })
+    ```
+    5. 在main.ts中设置element-plus默认支持语言英语设置为中文
+    ```
+        import ElementPlus from 'element-plus'
+        import 'element-plus/dist/index.css'
+        //@ts-expect-error忽略当前文件ts类型的检测否则有红色提示(打包会失败)
+        import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
+        app.use(ElementPlus, {
+            locale: zhCn,
+        })
+    ```
