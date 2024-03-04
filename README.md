@@ -643,6 +643,7 @@ export default [
 ## axios的二次封装
 
 1. 在src目录下新建utils文件夹，在utils文件夹中新建request.js文件用于二次封装axios
+
 ```
    // 引入工具axios和element-plus
    import axios from 'axios'
@@ -699,3 +700,31 @@ export default [
    // 导出
    export default request
 ```
+## API的统一管理
+   1. 在src文件夹下新建api文件夹，在api文件夹中新建user、product等文件夹
+   2. 在user、product等文件夹下新建type.ts、index.ts文件，其中前者用于书写ts类型，后者用于存放及接口
+   3. 示例
+   ```
+   // user/type.ts
+   export interface loginForm {     // 登录接口发送请求携带的数据的类型
+      username: string
+      password: string
+   }
+
+   interface dataType {             // 登录接口返回的数据的类型
+      token: string
+   }
+   export interface loginResponseData {
+      code: number
+      data: dataType
+   }
+   ```
+   ```
+   // user/index.ts
+   import request from '@/utils/request.js'     // 导入axios二次封装工具
+   import type { loginForm, loginResponseData, } from '@/api/user/type.ts'       // 导入数据类型
+   enum API { LOGIN_URL = '/user/login'}        // 统一管理接口
+
+   // 登录
+   export const reqLogin = (data: loginForm) => request.post<any, loginResponseData>(API.LOGIN_URL, data)
+   ```
