@@ -5,9 +5,16 @@ export const constantRoute = [
         component: () => import ('../views/login/index.vue')
     },
     {
-        name: 'layout',
+        name: 'home',
         path: '/',
-        component: () => import('@/views/home/index.vue')
+        redirect: '/layout',
+        children: [
+            {
+                name: 'layout',
+                path: '/layout',
+                // component: () => 
+            }
+        ]
     },
     {
         name: '404',

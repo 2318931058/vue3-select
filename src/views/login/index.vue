@@ -44,7 +44,7 @@ let loginForm = reactive({
     password: '111111'
 })
 const validatorUsername = (rule, value, callback) => {
-    if ((value.length > 5) && (value.length < 12)) {
+    if ((value.length >= 5) && (value.length < 12)) {
         callback()
     } else {
         callback(new Error('账号长度为5~12位'))
@@ -92,7 +92,7 @@ const login = async () => {
     loading.value = true
     try {
         await useStore.userLogin(loginForm)
-        router.push('/')
+        router.push('/layout')
         ElNotification({
             type: 'success',
             message: '登录成功',
